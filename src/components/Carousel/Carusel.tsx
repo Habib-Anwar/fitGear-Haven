@@ -1,5 +1,4 @@
 import { Carousel } from "antd";
-import ban3 from "../../assets/images/img3.jpg";
 export const Carusel = () => {
   const contentStyle: React.CSSProperties = {
     height: "460px",
