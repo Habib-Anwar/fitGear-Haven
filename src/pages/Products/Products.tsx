@@ -3,6 +3,7 @@ import Menubar from "./Menubar";
 import { useState } from "react";
 import { TButton } from "../../components/TButton/TButton";
 import { Link } from "react-router-dom";
+import { useGetProductsQuery } from "../../redux/api/baseApi";
 export const Products = () => {
   const { Meta } = Card;
   const { Content } = Layout;
@@ -17,6 +18,8 @@ export const Products = () => {
     setFilters(newFilters);
   };
 
+  const { data: products, isLoading, isError } = useGetProductsQuery();
+  console.log(products);
   return (
     <>
       <Menubar onFiltersChange={handleFiltersChange}></Menubar>

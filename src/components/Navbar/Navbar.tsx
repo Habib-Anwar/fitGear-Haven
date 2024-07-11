@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Navbar.css";
-import { Input } from "antd";
-import type { SearchProps } from "antd/es/input/Search";
+// import { Input } from "antd";
+// import type { SearchProps } from "antd/es/input/Search";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -11,10 +11,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const { Search } = Input;
+  // const { Search } = Input;
 
-  const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
-    console.log(info?.source, value);
+  // const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
+  //   console.log(info?.source, value);
 
   return (
     <nav className="navbar">
@@ -22,7 +22,7 @@ const Navbar = () => {
         <img src="/path-to-your-logo.png" alt="Logo" />
         <h1>FitGear Haven</h1>
       </div>
-      <Search
+      {/* <Search
         className="custom-search"
         style={{
           width: "250px",
@@ -33,7 +33,7 @@ const Navbar = () => {
         enterButton="Search"
         size="large"
         onSearch={onSearch}
-      />
+      /> */}
       <div className="menu-toggle" onClick={handleToggle}>
         <svg
           width="24"
