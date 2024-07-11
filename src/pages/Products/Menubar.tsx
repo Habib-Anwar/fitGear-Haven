@@ -60,6 +60,7 @@ const Menubar: React.FC<MenubarProps> = ({ onFiltersChange }) => {
       style={{
         backgroundColor: "#f0f2f5",
         padding: "10px",
+        borderRadius: "15px",
       }}
     >
       <Row gutter={16} align="middle">
