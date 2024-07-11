@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./Navbar.css";
 import { Input } from "antd";
 import type { SearchProps } from "antd/es/input/Search";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,16 +56,16 @@ const Navbar = () => {
           <a href="/">Home</a>
         </li>
         <li>
-          <a href="/products">Products</a>
+          <Link to="/products">Products</Link>
         </li>
         <li>
-          <a href="/about">About</a>
+          <Link to="/about">About</Link>
         </li>
         <li>
-          <a href="/checkout">Checkout</a>
+          <Link to="/checkout">Checkout</Link>
         </li>
         <li>
-          <a href="/cart">Cart</a>
+          <Link to="/cart">Cart</Link>
         </li>
       </ul>
     </nav>

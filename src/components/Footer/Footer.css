@@ -1,0 +1,16 @@
+.shining-black {
+  background: #000; /* Base black color */
+  background: -webkit-linear-gradient(
+    top,
+    #333,
+    #000
+  ); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(top, #333, #000); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(top, #333, #000); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom, #333, #000); /* Standard syntax */
+  color: white; /* Text color for contrast */
+  padding: 20px;
+  /* border-radius: 5px; */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
