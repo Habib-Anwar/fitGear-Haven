@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { TButton } from "../TButton/TButton";
 
 interface TCardProps {
-  id: number;
+  _id: number;
   images: string;
   name: string;
   price: number;
 }
 
-export const TCard: React.FC<TCardProps> = ({ images, name, price, id }) => {
+export const TCard: React.FC<TCardProps> = ({ images, name, price, _id }) => {
   const { Meta } = Card;
 
   return (
@@ -22,7 +22,7 @@ export const TCard: React.FC<TCardProps> = ({ images, name, price, id }) => {
         title={name}
         description={`$${price}`}
       />
-      <Link to={`/product-details/${id}`}>
+      <Link to={`/product-details/${_id}`}>
         <TButton
           style={{
             padding: "10px 20px",

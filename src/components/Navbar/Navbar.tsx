@@ -3,6 +3,8 @@ import "./Navbar.css";
 // import { Input } from "antd";
 // import type { SearchProps } from "antd/es/input/Search";
 import { Link } from "react-router-dom";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { useCart } from "../../pages/Cart/CartContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,11 +12,8 @@ const Navbar = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-
-  // const { Search } = Input;
-
-  // const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
-  //   console.log(info?.source, value);
+  const { cart } = useCart();
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="navbar">
@@ -22,18 +21,7 @@ const Navbar = () => {
         <img src="/path-to-your-logo.png" alt="Logo" />
         <h1>FitGear Haven</h1>
       </div>
-      {/* <Search
-        className="custom-search"
-        style={{
-          width: "250px",
-          marginLeft: "380px",
-        }}
-        placeholder="input search text"
-        allowClear
-        enterButton="Search"
-        size="large"
-        onSearch={onSearch}
-      /> */}
+
       <div className="menu-toggle" onClick={handleToggle}>
         <svg
           width="24"
@@ -65,7 +53,14 @@ const Navbar = () => {
           <Link to="/checkout">Checkout</Link>
         </li>
         <li>
-          <Link to="/cart">Cart</Link>
+          <Link to="/cart" style={{ display: "flex", alignItems: "center" }}>
+            <AiOutlineShoppingCart style={{ width: "28px", height: "25px" }} />
+            {totalItems > 0 && (
+              <span style={{ marginLeft: "8px", fontSize: "16px" }}>
+                {totalItems}
+              </span>
+            )}
+          </Link>
         </li>
       </ul>
     </nav>

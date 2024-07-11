@@ -14,9 +14,16 @@ export const baseApi = createApi({
 
       providesTags: ["product"],
     }),
+    getProductById: builder.query({
+      query: (id) => ({
+        url: `/product-details/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "product", id }],
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetProductsQuery } = baseApi;
+export const { useGetProductsQuery, useGetProductByIdQuery } = baseApi;

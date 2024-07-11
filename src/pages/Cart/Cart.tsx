@@ -1,20 +1,20 @@
-import { useState } from "react";
 import {
   Layout,
   List,
   Button,
-  InputNumber,
   Row,
   Col,
   Typography,
   Modal,
   notification,
 } from "antd";
-import { ShoppingCartOutlined, DeleteOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { useCart } from "./CartContext";
 
 export const Cart = () => {
+  const { cart } = useCart();
   const { Content } = Layout;
-  const { Title } = Typography;
+  const { Title, Text } = Typography;
 
   interface CartItem {
     productId: number;
@@ -23,24 +23,6 @@ export const Cart = () => {
     stock: number;
     quantity: number;
   }
-
-  const initialCart: CartItem[] = [
-    {
-      productId: 1,
-      name: "Example Product 1",
-      price: 99.99,
-      stock: 10,
-      quantity: 1,
-    },
-    {
-      productId: 2,
-      name: "Example Product 2",
-      price: 149.99,
-      stock: 5,
-      quantity: 2,
-    },
-  ];
-  const [cart, setCart] = useState<CartItem[]>(initialCart);
 
   const updateQuantity = (productId: number, quantity: number) => {
     setCart(
@@ -64,6 +46,7 @@ export const Cart = () => {
   };
 
   const getTotalPrice = () => {
+    console.log(cart);
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
@@ -76,28 +59,12 @@ export const Cart = () => {
           itemLayout="horizontal"
           dataSource={cart}
           renderItem={(item) => (
-            <List.Item
-              actions={[
-                <InputNumber
-                  min={1}
-                  max={item.stock}
-                  value={item.quantity}
-                  onChange={(value) =>
-                    updateQuantity(item.productId, value as number)
-                  }
-                />,
-                <Button
-                  type="link"
-                  icon={<DeleteOutlined />}
-                  onClick={() => removeItem(item.productId)}
-                />,
-              ]}
-            >
+            <List.Item>
               <List.Item.Meta
-                title={item.name}
-                description={`Price: $${item.price} | Stock: ${item.stock}`}
+                title={<Text>{item.name}</Text>}
+                description={`Quantity: ${item.quantity}`}
               />
-              <div>Subtotal: ${(item.price * item.quantity).toFixed(2)}</div>
+              <Text strong>${item.price * item.quantity}</Text>
             </List.Item>
           )}
         />
