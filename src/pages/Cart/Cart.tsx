@@ -2,27 +2,21 @@ import {
   Layout,
   List,
   Button,
+  InputNumber,
   Row,
   Col,
   Typography,
   Modal,
   notification,
 } from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useCart } from "./CartContext";
+import { Link } from "react-router-dom";
 
 export const Cart = () => {
-  const { cart } = useCart();
+  const { cart, setCart } = useCart();
   const { Content } = Layout;
   const { Title, Text } = Typography;
-
-  interface CartItem {
-    productId: number;
-    name: string;
-    price: number;
-    stock: number;
-    quantity: number;
-  }
 
   const updateQuantity = (productId: number, quantity: number) => {
     setCart(
@@ -46,11 +40,11 @@ export const Cart = () => {
   };
 
   const getTotalPrice = () => {
-    console.log(cart);
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const isCheckoutDisabled = cart.some((item) => item.stock === 0);
+
   return (
     <Layout>
       <Content style={{ padding: "50px" }}>
@@ -59,28 +53,44 @@ export const Cart = () => {
           itemLayout="horizontal"
           dataSource={cart}
           renderItem={(item) => (
-            <List.Item>
+            <List.Item
+              actions={[
+                <InputNumber
+                  min={1}
+                  max={item.stock}
+                  value={item.quantity}
+                  onChange={(value) => updateQuantity(item.productId, value)}
+                />,
+                <Button
+                  type="primary"
+                  icon={<DeleteOutlined />}
+                  onClick={() => removeItem(item.productId)}
+                />,
+              ]}
+            >
               <List.Item.Meta
                 title={<Text>{item.name}</Text>}
-                description={`Quantity: ${item.quantity}`}
+                description={`Price: $${item.price}`}
               />
-              <Text strong>${item.price * item.quantity}</Text>
+              <Text strong>Total: ${item.price * item.quantity}</Text>
             </List.Item>
           )}
         />
         <Row justify="end" style={{ marginTop: "20px" }}>
           <Col>
             <Title level={4}>Total: ${getTotalPrice().toFixed(2)}</Title>
-            <Button
-              type="primary"
-              icon={<ShoppingCartOutlined />}
-              disabled={isCheckoutDisabled}
-              onClick={() =>
-                notification.success({ message: "Proceeding to checkout..." })
-              }
-            >
-              {isCheckoutDisabled ? "Out of Stock" : "Proceed to Checkout"}
-            </Button>
+            <Link to="/checkout">
+              <Button
+                type="primary"
+                icon={<ShoppingCartOutlined />}
+                disabled={isCheckoutDisabled}
+                onClick={() =>
+                  notification.success({ message: "Proceeding to checkout..." })
+                }
+              >
+                {isCheckoutDisabled ? "Out of Stock" : "Proceed to Checkout"}
+              </Button>
+            </Link>
           </Col>
         </Row>
       </Content>

@@ -1,7 +1,17 @@
 import { TinyColor } from "@ctrl/tinycolor";
 import { Button, ConfigProvider, Space } from "antd";
 
-export const TButton = ({ style, ...props }) => {
+interface TButtonProps {
+  buttonName: string;
+  style?: React.CSSProperties;
+  [x: string]: any;
+}
+
+export const TButton: React.FC<TButtonProps> = ({
+  buttonName,
+  style,
+  ...props
+}) => {
   const colors1 = ["#364d7980", "#333"];
 
   const getHoverColors = (colors: string[]) =>
@@ -26,8 +36,8 @@ export const TButton = ({ style, ...props }) => {
           },
         }}
       >
-        <Button type="primary" size="large">
-          Product Details
+        <Button type="primary" size="large" {...props}>
+          {buttonName}
         </Button>
       </ConfigProvider>
     </Space>

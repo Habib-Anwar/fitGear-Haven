@@ -16,57 +16,21 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../Cart/CartContext";
 
 const stripePromise = loadStripe("your-stripe-public-key");
 
 const { Content } = Layout;
 const { Title } = Typography;
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  stock: number;
-  description: string;
-  images: string[];
-  category: string;
-}
-
-interface CartItem {
-  productId: number;
-  name: string;
-  price: number;
-  stock: number;
-  quantity: number;
-}
-
 const CheckoutPage: React.FC = () => {
   const [form] = Form.useForm();
   const [paymentMethod, setPaymentMethod] = useState<string>("cod");
   const stripe = useStripe();
   const elements = useElements();
-
-  const cart: CartItem[] = [
-    {
-      productId: 1,
-      name: "Example Product 1",
-      price: 99.99,
-      stock: 10,
-      quantity: 1,
-    },
-    {
-      productId: 2,
-      name: "Example Product 2",
-      price: 149.99,
-      stock: 5,
-      quantity: 2,
-    },
-  ];
-
-  const totalAmount = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const navigate = useNavigate();
+  const { emptyCart } = useCart();
 
   const handlePlaceOrder = async () => {
     const userDetails = await form.validateFields();
@@ -76,7 +40,8 @@ const CheckoutPage: React.FC = () => {
         message: "Order Placed",
         description: "Your order has been placed successfully!",
       });
-      history.push("/success");
+      emptyCart();
+      navigate("/");
     } else if (paymentMethod === "stripe") {
       // Handle Stripe Payment
       if (!stripe || !elements) {
@@ -99,7 +64,8 @@ const CheckoutPage: React.FC = () => {
           description:
             "Your payment was successful and your order has been placed!",
         });
-        history.push("/success");
+        emptyCart();
+        navigate("/");
       }
     }
   };

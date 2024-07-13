@@ -24,6 +24,7 @@ export const TCard: React.FC<TCardProps> = ({ images, name, price, _id }) => {
       />
       <Link to={`/product-details/${_id}`}>
         <TButton
+          buttonName="Product Details"
           style={{
             padding: "10px 20px",
             border: "none",

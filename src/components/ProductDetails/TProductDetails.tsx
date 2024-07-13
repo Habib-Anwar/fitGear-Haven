@@ -1,5 +1,4 @@
 import { Button, Col, Layout, notification, Row, Typography } from "antd";
-// import { useState } from "react";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useCart } from "../../pages/Cart/CartContext";
 
@@ -9,58 +8,43 @@ interface TProductProps {
   name: string;
   price: number;
   stock: number;
+  quantity: number;
   description: string;
   category: string;
 }
 
 export const TProductDetails: React.FC<TProductProps> = ({
-  _id,
-  images,
   name,
   price,
   stock,
   description,
+  images,
   category,
+  _id,
 }) => {
   const { Content } = Layout;
   const { Title, Text } = Typography;
-  const { cart, dispatch } = useCart();
-
-  const addToCart = () => {
-    const existingCartItem = cart.find((item) => item.productId === _id);
-
-    if (existingCartItem) {
-      if (existingCartItem.quantity < stock) {
-        dispatch({
-          type: "ADD_TO_CART",
-          payload: { productId: _id, quantity: 1 },
-        });
-        notification.success({
-          message: "Added to Cart",
-          description: "The product quantity has been increased in your cart.",
-        });
-      } else {
-        notification.warning({
-          message: "Stock Limit Reached",
-          description:
-            "You have reached the maximum stock quantity for this product.",
-        });
-      }
-    } else {
-      dispatch({
-        type: "ADD_TO_CART",
-        payload: { productId: _id, quantity: 1 },
-      });
-      notification.success({
-        message: "Added to Cart",
-        description: "The product has been added to your cart.",
-      });
-    }
-  };
+  const { addToCart, cart } = useCart();
 
   const isAddToCartDisabled = cart.some(
     (item) => item.productId === _id && item.quantity >= stock
   );
+
+  const handleAddToCart = () => {
+    const product = {
+      productId: _id,
+      name,
+      price,
+      stock,
+      quantity: 1, // Default quantity to add
+    };
+
+    addToCart(product);
+    notification.success({
+      message: "Added to Cart",
+      description: "The product has been added to your cart.",
+    });
+  };
 
   return (
     <Layout>
@@ -88,7 +72,7 @@ export const TProductDetails: React.FC<TProductProps> = ({
             <Button
               type="primary"
               icon={<ShoppingCartOutlined />}
-              onClick={addToCart}
+              onClick={handleAddToCart}
               disabled={isAddToCartDisabled}
             >
               {isAddToCartDisabled ? "Out of Stock" : "Add to Cart"}

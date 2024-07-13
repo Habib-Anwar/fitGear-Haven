@@ -15,13 +15,13 @@ export const About = () => {
       name: "John Doe",
       role: "CEO",
       bio: "John has over 20 years of experience in the industry and is the visionary behind our company.",
-      avatar: "https://via.placeholder.com/150",
+      avatar: "https://i.ibb.co/72R29pQ/man2.jpg",
     },
     {
       name: "Jane Smith",
       role: "CTO",
-      bio: "Jane is a tech genius, leading our tech team with innovative solutions.",
-      avatar: "https://via.placeholder.com/150",
+      bio: "Jane is a tech genius, leading our tech team with innovative solutions. For her advice company grows exponentially.",
+      avatar: "https://i.ibb.co/FJ3ptZL/Ellipse-90.png",
     },
     // Add more team members as needed
   ];
@@ -42,7 +42,7 @@ export const About = () => {
       <Content
         style={{
           padding: "50px",
-          background: "linear-gradient(to right, #364d7980, #333)",
+          background: " #333",
         }}
       >
         <div style={{ textAlign: "center", marginBottom: "50px" }}>
@@ -62,18 +62,34 @@ export const About = () => {
           </Paragraph>
         </div>
 
-        <div style={{ marginBottom: "50px", animation: "fadeIn 2s" }}>
-          <Title level={2}>Company Overview</Title>
-          <Paragraph>
+        <div
+          style={{
+            marginBottom: "50px",
+            animation: "fadeIn 2s",
+            textAlign: "center",
+          }}
+        >
+          <Title level={2} style={{ color: "white" }}>
+            Company Overview
+          </Title>
+          <Paragraph style={{ color: "white" }}>
             Our company was founded in [Year] with a mission to [Company
             Mission]. Over the years, we have grown into a [Industry] leader,
             committed to [Vision Statement].
           </Paragraph>
         </div>
 
-        <div style={{ marginBottom: "50px", animation: "fadeIn 2s" }}>
-          <Title level={2}>Our Team</Title>
-          <Row gutter={16}>
+        <div
+          style={{
+            marginBottom: "50px",
+            animation: "fadeIn 2s",
+            textAlign: "center",
+          }}
+        >
+          <Title level={2} style={{ color: "white", marginBottom: "28px" }}>
+            Our Team
+          </Title>
+          <Row gutter={16} justify={"center"}>
             {teamMembers.map((member, index) => (
               <Col key={index} xs={24} sm={12} md={8} lg={6}>
                 <Card
@@ -98,8 +114,16 @@ export const About = () => {
           </Row>
         </div>
 
-        <div style={{ marginBottom: "50px", animation: "fadeIn 2s" }}>
-          <Title level={2}>Customer Testimonials</Title>
+        <div
+          style={{
+            marginBottom: "50px",
+            animation: "fadeIn 2s",
+            textAlign: "center",
+          }}
+        >
+          <Title level={2} style={{ color: "white" }}>
+            Customer Testimonials
+          </Title>
           {testimonials.map((testimonial, index) => (
             <Card
               key={index}
@@ -114,22 +138,30 @@ export const About = () => {
           ))}
         </div>
 
-        <div style={{ animation: "fadeIn 2s" }}>
-          <Title level={2}>Contact Us</Title>
+        <div
+          style={{
+            animation: "fadeIn 2s",
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          <Title level={2} style={{ color: "white", marginBottom: "35px" }}>
+            Contact Us
+          </Title>
           <Row>
             <Col span={12}>
-              <Paragraph>
+              <Paragraph style={{ color: "white" }}>
                 <PhoneOutlined /> Phone: (123) 456-7890
               </Paragraph>
-              <Paragraph>
+              <Paragraph style={{ color: "white" }}>
                 <MailOutlined /> Email: contact@company.com
               </Paragraph>
             </Col>
             <Col span={12}>
-              <Paragraph>
+              <Paragraph style={{ color: "white" }}>
                 <TeamOutlined /> Address: 123 Main St, Anytown, USA
               </Paragraph>
-              <Paragraph>
+              <Paragraph style={{ color: "white" }}>
                 We would love to hear from you! Please reach out with any
                 questions or feedback.
               </Paragraph>

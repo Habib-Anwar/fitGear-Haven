@@ -107,7 +107,7 @@ export const Footer = () => {
         </Col>
       </Row>
       <div style={{ textAlign: "center", marginTop: "20px" }}>
-        ©2024 Your Company Name. All Rights Reserved.
+        ©2024 FitGear Haven. All Rights Reserved.
       </div>
     </Footer>
   );
