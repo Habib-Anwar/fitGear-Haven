@@ -13,34 +13,25 @@ import {
   Upload,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { useAddProductMutation } from "../../redux/api/baseApi";
+
+const { Content } = Layout;
+const { Option } = Select;
+
+interface Product {
+  id?: number;
+  name: string;
+  price: number;
+  category: string;
+  description: string;
+  images: string;
+  stock: number;
+}
 
 export const ProductManagement = () => {
-  const { Content } = Layout;
-  const { Option } = Select;
-
-  interface Product {
-    id: number;
-    name: string;
-    price: number;
-    category: string;
-    description: string;
-    images: string[];
-    stock: number;
-  }
-
-  const initialProducts: Product[] = [
-    {
-      id: 1,
-      name: "Product 1",
-      price: 100,
-      category: "Category 1",
-      description: "Description for Product 1",
-      images: ["https://via.placeholder.com/150"],
-      stock: 10,
-    },
-    // Add more initial products as needed
-  ];
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [addProduct, { isLoading, isError, isSuccess }] =
+    useAddProductMutation();
+  const [products, setProducts] = useState<Product[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
@@ -61,9 +52,8 @@ export const ProductManagement = () => {
     setEditingProduct(null);
   };
 
-  const handleSave = (values: any) => {
+  const handleSave = async (values: any) => {
     if (editingProduct) {
-      // Update existing product
       setProducts(
         products.map((product) =>
           product.id === editingProduct.id
@@ -76,7 +66,6 @@ export const ProductManagement = () => {
         description: "The product has been updated successfully.",
       });
     } else {
-      // Add new product
       const newProduct = {
         ...values,
         id: products.length + 1,
@@ -86,6 +75,20 @@ export const ProductManagement = () => {
         message: "Product Added",
         description: "The product has been added successfully.",
       });
+
+      try {
+        await addProduct(newProduct).unwrap();
+        notification.success({
+          message: "Product Added to product page",
+          description:
+            "The product has been added to the product page successfully.",
+        });
+      } catch (error) {
+        notification.error({
+          message: "Product Add Failed",
+          description: "Failed to add product to the product page.",
+        });
+      }
     }
     setIsModalVisible(false);
     setEditingProduct(null);
@@ -128,7 +131,7 @@ export const ProductManagement = () => {
           <Button onClick={() => showModal(record)}>Edit</Button>
           <Popconfirm
             title="Are you sure to delete this product?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record.id!)}
             okText="Yes"
             cancelText="No"
           >
@@ -141,11 +144,25 @@ export const ProductManagement = () => {
 
   const uploadProps = {
     beforeUpload: (file: any) => {
-      // Process file upload here (e.g., upload to ImgBB or any other service)
-      // For simplicity, we'll just use the file URL directly
-      return false; // Prevent automatic upload by Ant Design
+      const formData = new FormData();
+      formData.append("image", file);
+      const url = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_IMGBB_KEY
+      }`;
+      fetch(url, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          form.setFieldsValue({
+            images: data.data.url,
+          });
+        });
+      return false;
     },
   };
+
   return (
     <Layout>
       <Content style={{ padding: "50px" }}>
@@ -188,9 +205,10 @@ export const ProductManagement = () => {
               rules={[{ required: true, message: "Please select a category" }]}
             >
               <Select>
-                <Option value="Category 1">Category 1</Option>
-                <Option value="Category 2">Category 2</Option>
-                {/* Add more categories as needed */}
+                <Option value="TREADMILLS">TREADMILLS</Option>
+                <Option value="ELLIPTICALS">ELLIPTICALS</Option>
+                <Option value="CABLE MACHINES">CABLE MACHINES</Option>
+                <Option value="STRENGTH">STRENGTH</Option>
               </Select>
             </Form.Item>
             <Form.Item
